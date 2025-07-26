@@ -73,10 +73,12 @@ The original Excel formulas have been **translated manually into the questionnai
 ## Developers
 
 * François Brouchoud
-* Julienne Bétrisey
-* Arthur Avez
 * Elias Borrajo
 * Théo Clerc
+* Arthur Avez
+* Julienne Bétrisey
+
+
 
 ## 📝 Notes
 
