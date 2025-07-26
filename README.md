@@ -1,102 +1,101 @@
 # FitnessCheckProject 🏃‍♀️📊
 
-> Self‑assessment of physical activity and mobility — built with **React 18 + Firebase**.
+> **Self‑assessment of physical activity, mobility & overall health risks — built with React 18 & Firebase**
 
-## Introduction
+---
 
-**FitnessCheck** is a React application that gathers user fitness data, offers personalised advice and visualises the results through an interactive radar plot for easy understanding. The data is stored in **Firestore**.
+## 📚 Project Overview
 
-Developed as part of the **Web Development Project** at the University of Applied Sciences **HES‑SO Valais‑Wallis**.
+*FitnessCheck* is a single‑page React application developed during the **Web Development Project** (Semester 6 – Spring 2023) at **HES‑SO Valais‑Wallis**.
+
+The app modernises a preventive‑health **Excel spreadsheet** created by **Dr Marc‑André Raetzo (HUG, Genève)** by embedding its logic directly into an interactive web questionnaire.
+Users complete two concise forms, then immediately see their **IMC (BMI)** and multi‑category **risk scores** (cardiac, cerebrovascular, cancer, diabetes…). Results appear on an interactive radar plot and are stored in **Cloud Firestore** so they can be exported or reviewed later.
+
+---
+
+## 🧠 Scientific Background & Algorithm
+
+The original Excel formulas have been **translated manually into the questionnaire code (plain JavaScript)**. Each answer feeds weighted coefficients and produces the final risk values at submit time.
+
+**TODO** – document the coefficient mapping in detail and add automated regression tests against the spreadsheet.
+
+> ⚠️ **Disclaimer** – For educational use only. The results do **not** constitute medical advice.
+
+---
 
 
+## 🧪 Tech Stack
 
-## Project Goal
+| Layer           | Libs / Tools                                                     | Notes                |
+| --------------- | ---------------------------------------------------------------- | -------------------- |
+| **Front‑end**   | React 18 · React Router 6                                        | CRA setup            |
+| **Charts**      | @nivo/radar                                                      | Radar visualisation  |
+| **Algorithm**   | Plain **JavaScript**                                             | Embedded formulas    |
+| **Data / Auth** | Firebase v9 (Auth + Firestore)                                   | Modular SDK          |
+| **UI flows**    | react‑firebaseui                                                 | Pre‑built auth flows |
+| **DevOps**      | Multi‑stage **Dockerfile** · **Docker Compose** + Traefik labels | Prod & local         |
 
-Provide an easy‑to‑use web questionnaire that lets anyone:
+---
 
-- Sign up with Google or email, then fill in two short surveys about **physical activity** and **mobility**.
-- Instantly visualise their scores on a radar chart and receive tailored recommendations.
-- Calculate their **IMC/BMI** in a dedicated tool.
-- Save, download or email the results.
+## 🎯 Objectives & Use‑case
 
-*Built in semester 6 at ****HES‑SO – Informatique de gestion**** as a learning project.*
+* **Authenticate** with Google or e‑mail and complete:
 
-## Features
+  * **Part A – Physical Activity**
+  * **Part B – Mobility & Lifestyle**
+* **Visualise** results instantly via radar plot along with personalised tips.
+* Extras:
 
-- 🔐 **Firebase Authentication** (email + Google) & automatic user profile creation.
-- 📝 Dynamic, branch‑logic **survey** (Part A & B) stored in Firestore.
-- 📈 Radar‑plot visualisation with **@nivo/radar**.
-- ⚙️ **Admin** back‑office to seed / edit questions & messages.
-- 🧑‍🤝‍🧑 **Group leader** view to consult participant results.
-- 🏗️ Dark / light theme toggle (Context API).
-- 📤 Export results: e‑mail or plain‑text download.
+  * **IMC (BMI) calculator**
+  * **Export** results (TXT download or e‑mail attachment)
+  * **Group‑leader dashboard** to track participants
 
-## Tech Stack
+---
 
-| Layer       | Libs / Tools                                                        |
-| ----------- | ------------------------------------------------------------------- |
-| Front‑end   | React 18, React Router 6, @nivo/radar                               |
-| Data/Auth   | Firebase v9 (Auth + Firestore)                                      |
-| UI flows    | react‑firebaseui                                                    |
-| Dev / Build | Create‑React‑App, ESLint, Jest                                      |
-| Ops         | Multi‑stage **Dockerfile** + **Docker Compose** with Traefik labels |
+## 🔧 Key Features & Success Criteria
 
-## 📁 Structure
+| Item / Criterion                  | Status | Notes                                       |
+| --------------------------------- | ------ | ------------------------------------------- |
+| Firebase **Email & Google Auth**  | ✅      | `react‑firebaseui` (modular SDK)            |
+| **Dynamic survey** (Parts A & B)  | ✅      | Branch logic in `components/Questionnaire/` |
+| Survey **storage in Firestore**   | ✅      | One document per user                       |
+| **Radar plot** visualisation      | ✅      | `components/Results/RadarChart.js` (Nivo)   |
+| **IMC (BMI) calculator**          | ✅      | `screens/IMC-Calculator.js`                 |
+| Results **export** (TXT / e‑mail) | ✅      | `exportToTxt`, `sendMail` utils             |
+| **Admin back‑office**             | ✅      | `screens/Admin.js` + seed helpers           |
+| **Group‑leader dashboard**        | ✅      | `screens/GroupLeader.js`                    |
+| Dark / light **theme toggle**     | ✅      | Implemented                                 |
+| **Docker + Traefik** deployment   | ✅      | Multi‑stage build, labels in compose        |
 
-```
-.
-├── src/
-│   ├── components/     # Questionnaire, results, admin forms
-│   ├── screens/        # Routed pages (Home, Questionnaire, Resultats, Admin…)
-│   ├── ThemeContext.js # light/dark toggle
-│   └── initFirebase.js # Firebase boot‑strap
-├── public/             # CRA static files
-├── Dockerfile          # Build & runtime stages
-└── docker-compose.yml  # One‑click container startup
-```
 
-## Installation
-
-```bash
-git clone https://github.com/EliasBorrajo/FitnessCheckProject.git
-cd FitnessCheckProject
-cp .env.sample .env      # add your Firebase keys
-yarn install
-yarn start               # http://localhost:3000
-```
-
-## Docker (+ Traefik)
-
-```bash
-# build & run
-docker compose up -d
-```
-
-Labels inside `docker-compose.yml` expose the app through Traefik; adjust `TRAEFIK_URL` in `.env`.
-
-## Requirements
-
-- Node 16+ & Yarn
-- A Firebase project with **Email/Google Auth** and a **Firestore** database
-- (Optional) Docker 23+ and Traefik reverse‑proxy
+---
 
 ## Developers
 
-- François Brouchoud
-- Julienne Bétrisey
-- Arthur Avez
-- Elias Borrajo
-- Théo Clerc
+* François Brouchoud
+* Julienne Bétrisey
+* Arthur Avez
+* Elias Borrajo
+* Théo Clerc
 
 ## 📝 Notes
 
-This is a **proof of concept / educational** project; security hardening and exhaustive tests are out of scope.
+Proof‑of‑concept for academic purposes; no clinical validation or exhaustive tests.
 
 ## Status
 
-📁 **Archived** — no active maintenance. Feel free to fork & experiment!
+📁 **Archived** — no active maintenance. Fork & experiment!
 
 ## License
 
 GPL‑3.0 — see [LICENSE](./LICENSE).
 
+---
+
+### **Academic Info**
+
+*Course: Project 645‑1 – Web Development* 
+
+*Instructors: Roger Schaer & Alexandre Cotting* 
+
+*Context : HES‑SO Valais‑Wallis — Bachelor of Science in Business IT, 6th semester*
